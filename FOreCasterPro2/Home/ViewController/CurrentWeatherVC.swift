@@ -2,23 +2,26 @@ import UIKit
 import CoreLocation
 
 class CurrentWeatherVC: UIViewController {
+    let cityName = UILabel()
     
-    //MARK: - Properties
-    let locationManager = UserLocation()
-    let forecastFetch = WeatherAPI()
-    let currentFetch = WeatherAPI()
-    
-    //MARK: To add suggestive text in search bar
-//    let searchSuggestions = [
-//
-//        "Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Kolkata","Ahmedabad","Pune","Jaipur","Lucknow","Surat","Kanpur","Nagpur","Indore","Thane","Bhopal","Visakhapatnam","Patna","Vadodara","Ghaziabad","India","United States","United Kingdom","Canada","Australia","Germany","France","Japan","China","Brazil","Russia","Italy","Spain","South Korea","Singapore"
-//    ]
+    let cityView = UIView()
+    //MARK: Suggestion for dropdown search
+    let citySuggestions = [
+        "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai",
+        "Kolkata", "Pune", "Ahmedabad", "Jaipur", "Lucknow",
+        "United States", "United Kingdom", "Canada", "Australia", "Germany",
+        "France", "Japan", "China", "Brazil", "Russia"
+    ]
 
+    // MARK: - Properties
+    private let locationManager = UserLocation()
+    private let weatherAPI = WeatherAPI()
+    private let foreCastVC = ForeCastWeatherVC()
+    
     private var weatherData: [[String: String]] = []
     private var filteredWeatherData: [[String: String]] = []
     private var isFiltering = false
-    
-  
+    private var suggestedCities: [String] = []
     
     private lazy var headerLabel: UILabel = {
         let label = UILabel()
@@ -49,6 +52,20 @@ class CurrentWeatherVC: UIViewController {
         return searchBar
     }()
     
+    private lazy var dropDownView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.backgroundColor = .black
+        
+        stackView.layer.cornerRadius = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.isHidden = true
+        return stackView
+    }()
+    
     private lazy var weatherTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,47 +79,37 @@ class CurrentWeatherVC: UIViewController {
         return tableView
     }()
     
-    //MARK: - LifeCycle
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
         setupConstraints()
-       
-        
-
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.global().async {
             self.locationManager.requestLocationAccess()
         }
     }
     
-
-    
     // MARK: - Private Methods
     private func fetchWeatherData(for location: String) {
-        currentFetch.getCurrentWeather(for: location) { [weak self] result in
+        weatherAPI.getCurrentWeather(for: location) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let weatherData):
                 DispatchQueue.main.async {
                     self.updateWeatherData(with: weatherData)
+                    self.dropDownView.isHidden = true
                     self.weatherTableView.isHidden = self.searchBar.text?.isEmpty ?? true
+                    
                 }
             case .failure:
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: ForeCastProStringConstants.alert,
-                                                  message: "No location found: \(self.searchBar.text ?? "Unknown")",
-                                                  preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: ForeCastProStringConstants.alertActionTitle, style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                }
+                print("Failed to update weather data through search")
             }
         }
     }
     
-
-
     private func updateWeatherData(with weatherData: CurrentWeatherModal) {
         self.weatherData = [
             [ForeCastProStringConstants.title: ForeCastProStringConstants.name, ForeCastProStringConstants.value: weatherData.location.name ?? "-", "icon": "person"],
@@ -116,37 +123,126 @@ class CurrentWeatherVC: UIViewController {
         weatherTableView.reloadData()
     }
     
+    func updateDropDown(with searchText: String) {
+        dropDownView.subviews.forEach { $0.removeFromSuperview() }
+
+        suggestedCities = searchText.isEmpty ? [] : citySuggestions
+            .filter { $0.lowercased().contains(searchText.lowercased()) }
+
+        if suggestedCities.isEmpty {
+            dropDownView.isHidden = true
+            return
+        }
+
+        dropDownView.isHidden = false
+
+        for city in suggestedCities {
+          
+            cityName.text = city
+            cityName.isUserInteractionEnabled = true
+            cityName.textAlignment = .left
+            cityName.backgroundColor = .black
+            cityName.textColor = .white
+            cityName.layer.cornerRadius = 5
+            cityName.font = UIFont(name: "Poppins", size: 15)
+            cityName.clipsToBounds = true
+            cityName.translatesAutoresizingMaskIntoConstraints = false
+
+            
+            cityView.backgroundColor = .black
+            cityView.layer.cornerRadius = 5
+            cityView.translatesAutoresizingMaskIntoConstraints = false
+            cityView.addSubview(cityName)
+
+            dropDownView.addArrangedSubview(cityView)
+
+            NSLayoutConstraint.activate([
+                cityName.leadingAnchor.constraint(equalTo: cityView.leadingAnchor, constant: 10),
+                cityName.trailingAnchor.constraint(equalTo: cityView.trailingAnchor, constant: -10),
+                cityName.topAnchor.constraint(equalTo: cityView.topAnchor, constant: 5),
+                cityName.bottomAnchor.constraint(equalTo: cityView.bottomAnchor, constant: -5),
+                cityView.heightAnchor.constraint(equalToConstant: 40)
+            ])
+
+            cityView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(suggestionTapped(_:))))
+        }
+    }
+
+
+    @objc private func suggestionTapped(_ sender: UITapGestureRecognizer) {
+        if let label = sender.view as? UILabel, let cityName = label.text {
+            searchBar.text = cityName
+            dropDownView.isHidden = true
+          
+            fetchWeatherData(for: cityName)
+            
+        }
+    }
+
     private func setupConstraints() {
         view.addSubview(backgroundImageView)
         view.addSubview(headerLabel)
         view.addSubview(searchBar)
+        view.addSubview(dropDownView)
         view.addSubview(weatherTableView)
-       
         
         NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
-            headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            searchBar.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues16)),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_16)),
-            
-            weatherTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
-            weatherTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
-            weatherTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_16)),
-            weatherTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_20))
-        ])
+                    backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
+                    backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                    
+                    headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
+                    headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    
+                    searchBar.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
+                    searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues16)),
+                    searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_16)),
+                    
+                    dropDownView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 3),
+                    dropDownView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
+                    dropDownView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_20)),
+                   
+                  
+                    
+                    weatherTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
+                    weatherTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
+                    weatherTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_16)),
+                    weatherTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_20))
+                ])
+        self.view.bringSubviewToFront(dropDownView)
     }
 }
 
-//MARK: - Table View Delegates
-extension CurrentWeatherVC : UITableViewDelegate, UITableViewDataSource {
+// MARK: - SearchBar Delegate
+extension CurrentWeatherVC: UISearchBarDelegate {
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        updateDropDown(with: searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        
+        guard let searchTerm = searchBar.text, !searchTerm.isEmpty else { return }
+        
+            self.fetchWeatherData(for: searchTerm)
+        dropDownView.isHidden = true
+        if let searchText = searchBar.text, !searchText.isEmpty {
+            fetchWeatherData(for: searchText)
+        }
+
+        }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        isFiltering = false
+        filteredWeatherData = weatherData
+        weatherTableView.reloadData()
+    }
+    
+}
+extension CurrentWeatherVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (isFiltering ? filteredWeatherData.count : weatherData.count) / 2
     }
@@ -168,8 +264,8 @@ extension CurrentWeatherVC : UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//MARK: -  Lcoations Handling
-extension CurrentWeatherVC : LocationDelegate {
+// MARK: - Location Handling
+extension CurrentWeatherVC: LocationDelegate {
     func didUpdateLocation(latitude: Double, longitude: Double, locationName: String) {
         DispatchQueue.main.async {
             self.searchBar.text = locationName
@@ -178,26 +274,7 @@ extension CurrentWeatherVC : LocationDelegate {
     }
 }
 
-//MARK: - SearchBar delegates 
-extension CurrentWeatherVC : UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        if let searchTerm = searchBar.text, !searchTerm.isEmpty {
-           
-            fetchWeatherData(for: searchTerm)
-           
-            weatherTableView.reloadData()
-        }
-        
-        
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        isFiltering = false
-        filteredWeatherData = weatherData
-       
-        weatherTableView.reloadData()
-       
-    }
-}
+// MARK: - SearchBar Delegates
+
+ 
+

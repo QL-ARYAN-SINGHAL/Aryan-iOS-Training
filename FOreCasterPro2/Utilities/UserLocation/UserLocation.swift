@@ -13,6 +13,7 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
     
     //PROPERTIES
     
+   
     private var locationManager = CLLocationManager()
     weak var delegate: LocationDelegate?
     
@@ -48,7 +49,7 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
             print("Location access denied.")
         case .authorizedWhenInUse, .authorizedAlways:
             startUpdatingLocation()
-        @unknown default:
+         default:
             print("Unknown authorization status.")
         }
     }
@@ -79,19 +80,17 @@ func fetchLocationName() {
                 print("No placemark found.")
                 return
             }
-            
+          
             let city = placemark.locality ?? "Unknown"
-            print(location.coordinate.latitude)
-            print(location.coordinate.longitude)
             
             self?.delegate?.didUpdateLocation(
                 latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude,
                 locationName: city
             )
+            
+           
         }
     }
-    func getCoordinateFrom(address: String, completion: @escaping(_ coordinate: CLLocationCoordinate2D?, _ error: Error?) -> () ) {
-        CLGeocoder().geocodeAddressString(address) { completion($0?.first?.location?.coordinate, $1) }
-    }
+    
 }

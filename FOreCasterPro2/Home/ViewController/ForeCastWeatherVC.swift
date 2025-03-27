@@ -3,7 +3,7 @@
 //  FOreCasterPro2
 //
 //  Created by ARYAN SINGHAL on 24/03/25.
-//
+
 
 import UIKit
 
@@ -59,7 +59,7 @@ class ForeCastWeatherVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Forecaster is loaded now ")
+     
         locationManager.delegate = self
         setActivityIndicator()
    
@@ -67,7 +67,7 @@ class ForeCastWeatherVC: UIViewController{
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
         locationManager.fetchLocationName()
     }
     
@@ -121,20 +121,27 @@ class ForeCastWeatherVC: UIViewController{
     
     //MARK: PRIVATE FUNCTIONS 
     
-    private func fetchForecast(latitude: Double, longitude: Double) {
+    func fetchForecast(latitude: Double, longitude: Double) {
+       
         forecastFetch.getForecastWeather(latitude: latitude, longitude: longitude) { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
             case .success(let forecastData):
                 DispatchQueue.main.async {
-                    self?.updateForeCastData(with: forecastData)
-                   
+                    self.forecastCollectionView.reloadData()
+                    self.updateForeCastData(with: forecastData)
+                    
+                    self.activityIndicator.stopAnimating()
+                    self.view.isUserInteractionEnabled = true
                 }
+            
             case .failure(let error):
                 print("Error fetching forecast: \(error.localizedDescription)")
+                
             }
         }
     }
-
     private func setupUI() {
         view.addSubview(foreCastBackgroundImageView)
         view.addSubview(titleLabel)
