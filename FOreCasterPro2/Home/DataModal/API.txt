@@ -1,0 +1,13 @@
+Current weather api
+https://api.weatherapi.com/v1/current.json?key=c5090c5d610b42ffbcb113559252403&q=London&aqi=no
+
+
+Forecasting api
+
+https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&timezone=auto
+
+
+
+Historical api
+
+https://archive-api.open-meteo.com/v1/archive?latitude=52.52&longitude=13.41&start_date=2025-03-09&end_date=2025-03-23&daily=temperature_2m_max,temperature_2m_min&timezone=auto
