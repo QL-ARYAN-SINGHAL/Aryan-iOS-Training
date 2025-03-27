@@ -3,6 +3,7 @@ import UIKit
 
 //MARK: PROTOCOLS
 
+
 protocol LocationDelegate: AnyObject {
     func didUpdateLocation(latitude: Double, longitude: Double, locationName: String)
 }
@@ -24,7 +25,7 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
         locationManager.distanceFilter = kCLDistanceFilterNone
     }
     
-    //MARK: FUNCTIONS
+//MARK: FUNCTIONS
     func requestLocationAccess() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestWhenInUseAuthorization()
@@ -89,5 +90,8 @@ func fetchLocationName() {
                 locationName: city
             )
         }
+    }
+    func getCoordinateFrom(address: String, completion: @escaping(_ coordinate: CLLocationCoordinate2D?, _ error: Error?) -> () ) {
+        CLGeocoder().geocodeAddressString(address) { completion($0?.first?.location?.coordinate, $1) }
     }
 }

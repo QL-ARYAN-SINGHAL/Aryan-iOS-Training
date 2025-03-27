@@ -9,14 +9,16 @@ class CurrentWeatherVC: UIViewController {
     let currentFetch = WeatherAPI()
     
     //MARK: To add suggestive text in search bar
-    let searchSuggestions = [
-       
-        "Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Kolkata","Ahmedabad","Pune","Jaipur","Lucknow","Surat","Kanpur","Nagpur","Indore","Thane","Bhopal","Visakhapatnam","Patna","Vadodara","Ghaziabad","India","United States","United Kingdom","Canada","Australia","Germany","France","Japan","China","Brazil","Russia","Italy","Spain","South Korea","Singapore"
-    ]
+//    let searchSuggestions = [
+//
+//        "Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Kolkata","Ahmedabad","Pune","Jaipur","Lucknow","Surat","Kanpur","Nagpur","Indore","Thane","Bhopal","Visakhapatnam","Patna","Vadodara","Ghaziabad","India","United States","United Kingdom","Canada","Australia","Germany","France","Japan","China","Brazil","Russia","Italy","Spain","South Korea","Singapore"
+//    ]
 
     private var weatherData: [[String: String]] = []
     private var filteredWeatherData: [[String: String]] = []
     private var isFiltering = false
+    
+  
     
     private lazy var headerLabel: UILabel = {
         let label = UILabel()
@@ -65,6 +67,8 @@ class CurrentWeatherVC: UIViewController {
         super.viewDidLoad()
         locationManager.delegate = self
         setupConstraints()
+       
+        
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -117,6 +121,7 @@ class CurrentWeatherVC: UIViewController {
         view.addSubview(headerLabel)
         view.addSubview(searchBar)
         view.addSubview(weatherTableView)
+       
         
         NSLayoutConstraint.activate([
             backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -178,8 +183,9 @@ extension CurrentWeatherVC : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         if let searchTerm = searchBar.text, !searchTerm.isEmpty {
-          
+           
             fetchWeatherData(for: searchTerm)
+           
             weatherTableView.reloadData()
         }
         

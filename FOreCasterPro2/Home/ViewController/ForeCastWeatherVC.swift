@@ -14,15 +14,18 @@ class ForeCastWeatherVC: UIViewController{
     let locationManager = UserLocation()
     
     let forecastFetch = WeatherAPI()
+    
     private var forecastData = [ForeCastModal]()
-
+    
+    let activityIndicator = UIActivityIndicatorView()
+    
     private lazy var foreCastBackgroundImageView: UIImageView = {
         let forecastImageView = UIImageView()
         forecastImageView.image = UIImage(named: ForeCastProStringConstants.currentBackgroundimage)
         forecastImageView.contentMode = .scaleAspectFill
         forecastImageView.clipsToBounds = true
         forecastImageView.translatesAutoresizingMaskIntoConstraints = false
-        forecastImageView.alpha = ForeCastProMathConstants.foreCastAlpha
+        forecastImageView.alpha = ForeCastProMathConstants.historyAlpha
         return forecastImageView
     }()
     
@@ -35,7 +38,7 @@ class ForeCastWeatherVC: UIViewController{
         titleLabel.text = ForeCastProStringConstants.title
         return titleLabel
     }()
-
+    
     private lazy var forecastCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -56,15 +59,30 @@ class ForeCastWeatherVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Forecaster is loaded now ")
         locationManager.delegate = self
+        setActivityIndicator()
+   
         setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         locationManager.fetchLocationName()
     }
     
     //MARK: FUNCTIONS
+    
+    func setActivityIndicator(){
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.color = .white
+        activityIndicator.alpha = 1
+        activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
+    }
     
     func updateForeCastData(with newForecastData: ForeCastModal) {
         guard let maxTemperatures = newForecastData.daily?.temperature2MMax else { return }
@@ -92,8 +110,10 @@ class ForeCastWeatherVC: UIViewController{
         }
 
         DispatchQueue.main.async {
-            
             self.forecastCollectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.view.isUserInteractionEnabled = true
+            
             
         }
     }
@@ -148,7 +168,7 @@ extension ForeCastWeatherVC: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCell", for: indexPath) as? ForecastCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
+       
         let forecast = forecastData[indexPath.item]
         cell.configure(with: forecast)
         return cell

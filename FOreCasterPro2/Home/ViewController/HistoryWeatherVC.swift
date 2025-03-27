@@ -5,6 +5,8 @@ class HistoryWeatherVC: UIViewController {
     //MARK: PROPERTIES
     let historyFetch = WeatherAPI()
     let locationManager = UserLocation()
+    let activityIndicator = UIActivityIndicatorView()
+    
     private var historyData: [HistoryModal] = []
     
     private lazy var HistoryBackgroundImageView: UIImageView = {
@@ -48,6 +50,7 @@ class HistoryWeatherVC: UIViewController {
         super.viewDidLoad()
   
         locationManager.delegate = self
+        setActivityIndicator()
         setupConstraints()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +58,16 @@ class HistoryWeatherVC: UIViewController {
     }
     
     //MARK: FUNCTIONS
+    func setActivityIndicator(){
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.color = .white
+        activityIndicator.alpha = 1
+        activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+        view.addSubview(activityIndicator)
+    }
     
     func updatehistoryData(with historyData: HistoryModal) {
         guard let maxTemperatures = historyData.daily?.temperature2MMax else { return }
@@ -87,6 +100,9 @@ class HistoryWeatherVC: UIViewController {
         }
 
         DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            self.view.isUserInteractionEnabled = true
+            
             self.historyData = updatedHistoryData
             self.historyCollectionView.reloadData()
         }
