@@ -2,9 +2,7 @@ import UIKit
 import CoreLocation
 
 class CurrentWeatherVC: UIViewController {
-    let cityName = UILabel()
     
-    let cityView = UIView()
     //MARK: Suggestion for dropdown search
     let citySuggestions = [
         "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai",
@@ -54,12 +52,13 @@ class CurrentWeatherVC: UIViewController {
     
     private lazy var dropDownView: UIStackView = {
         let stackView = UIStackView()
+        let layout = UIScrollView()
         stackView.axis = .vertical
         stackView.spacing = 5
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.backgroundColor = .black
-        
+        stackView.backgroundColor = .darkGray
+        layout.showsVerticalScrollIndicator = true
         stackView.layer.cornerRadius = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.isHidden = true
@@ -100,7 +99,7 @@ class CurrentWeatherVC: UIViewController {
             case .success(let weatherData):
                 DispatchQueue.main.async {
                     self.updateWeatherData(with: weatherData)
-                    self.dropDownView.isHidden = true
+//                    self.dropDownView.isHidden = true
                     self.weatherTableView.isHidden = self.searchBar.text?.isEmpty ?? true
                     
                 }
@@ -128,6 +127,7 @@ class CurrentWeatherVC: UIViewController {
 
         suggestedCities = searchText.isEmpty ? [] : citySuggestions
             .filter { $0.lowercased().contains(searchText.lowercased()) }
+  
 
         if suggestedCities.isEmpty {
             dropDownView.isHidden = true
@@ -137,19 +137,19 @@ class CurrentWeatherVC: UIViewController {
         dropDownView.isHidden = false
 
         for city in suggestedCities {
-          
+            let cityName = UILabel()
             cityName.text = city
             cityName.isUserInteractionEnabled = true
             cityName.textAlignment = .left
-            cityName.backgroundColor = .black
+            cityName.backgroundColor = .darkGray
             cityName.textColor = .white
             cityName.layer.cornerRadius = 5
             cityName.font = UIFont(name: "Poppins", size: 15)
             cityName.clipsToBounds = true
             cityName.translatesAutoresizingMaskIntoConstraints = false
 
-            
-            cityView.backgroundColor = .black
+            let cityView = UIView()
+            cityView.backgroundColor = .darkGray
             cityView.layer.cornerRadius = 5
             cityView.translatesAutoresizingMaskIntoConstraints = false
             cityView.addSubview(cityName)
@@ -161,10 +161,11 @@ class CurrentWeatherVC: UIViewController {
                 cityName.trailingAnchor.constraint(equalTo: cityView.trailingAnchor, constant: -10),
                 cityName.topAnchor.constraint(equalTo: cityView.topAnchor, constant: 5),
                 cityName.bottomAnchor.constraint(equalTo: cityView.bottomAnchor, constant: -5),
-                cityView.heightAnchor.constraint(equalToConstant: 40)
+                cityView.heightAnchor.constraint(equalToConstant: 40),
+                cityView.trailingAnchor.constraint(equalTo: cityView.trailingAnchor,constant: -20)
             ])
 
-            cityView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(suggestionTapped(_:))))
+            cityName.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(suggestionTapped(_:))))
         }
     }
 
@@ -175,7 +176,7 @@ class CurrentWeatherVC: UIViewController {
             dropDownView.isHidden = true
           
             fetchWeatherData(for: cityName)
-            
+            searchBarSearchButtonClicked(searchBar)
         }
     }
 
@@ -199,9 +200,10 @@ class CurrentWeatherVC: UIViewController {
                     searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues16)),
                     searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_16)),
                     
-                    dropDownView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 3),
-                    dropDownView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues20)),
-                    dropDownView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(ForeCastProMathConstants.AnchorValues_20)),
+                    dropDownView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 5),
+                    dropDownView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
+                    dropDownView.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor,constant: -20),
+
                    
                   
                     
@@ -274,7 +276,6 @@ extension CurrentWeatherVC: LocationDelegate {
     }
 }
 
-// MARK: - SearchBar Delegates
 
  
 
