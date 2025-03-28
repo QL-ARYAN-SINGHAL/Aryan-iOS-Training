@@ -14,7 +14,7 @@ class CurrentWeatherVC: UIViewController {
     // MARK: - Properties
     private let locationManager = UserLocation()
     private let weatherAPI = WeatherAPI()
-    private let foreCastVC = ForeCastWeatherVC()
+   // private let foreCastVC = ForeCastWeatherVC()
     
     private var weatherData: [[String: String]] = []
     private var filteredWeatherData: [[String: String]] = []
@@ -100,7 +100,9 @@ class CurrentWeatherVC: UIViewController {
                 DispatchQueue.main.async {
                     self.updateWeatherData(with: weatherData)
 //                    self.dropDownView.isHidden = true
+                    
                     self.weatherTableView.isHidden = self.searchBar.text?.isEmpty ?? true
+                    
                     
                 }
             case .failure:
@@ -120,6 +122,33 @@ class CurrentWeatherVC: UIViewController {
         ]
         filteredWeatherData = self.weatherData
         weatherTableView.reloadData()
+    }
+    
+    func forwardGeocoding(address: String) {
+        
+        let geocoder = CLGeocoder()
+       
+        geocoder.geocodeAddressString(address) { [weak self] (placemarks, error) in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Failed to retrieve location: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let location = placemarks?.first?.location else {
+                print("No Matching Location Found")
+                return
+            }
+            
+            let coordinate = location.coordinate
+            let searchedlatitude = coordinate.latitude
+            let searchedlongitude = coordinate.longitude
+            
+            print("\nlatforward geocoder: \(searchedlatitude), long: \(searchedlongitude)")
+    //        foreCastVC.fetchForecast(latitude: searchedlatitude, longitude: searchedlongitude)
+            
+        }
     }
     
     func updateDropDown(with searchText: String) {
@@ -228,11 +257,18 @@ extension CurrentWeatherVC: UISearchBarDelegate {
         
         guard let searchTerm = searchBar.text, !searchTerm.isEmpty else { return }
         
-            self.fetchWeatherData(for: searchTerm)
+
         dropDownView.isHidden = true
         if let searchText = searchBar.text, !searchText.isEmpty {
+            
             fetchWeatherData(for: searchText)
+            
+            forwardGeocoding(address: searchTerm)
+            
+            
         }
+        
+       
 
         }
     

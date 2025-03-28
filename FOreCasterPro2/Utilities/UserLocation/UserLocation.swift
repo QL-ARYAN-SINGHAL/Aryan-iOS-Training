@@ -6,6 +6,7 @@ import UIKit
 
 protocol LocationDelegate: AnyObject {
     func didUpdateLocation(latitude: Double, longitude: Double, locationName: String)
+    
 }
 
 //MARK: CLASS THAT FETCH USER LOCATION THROUGH CLLOCATIONMANAGER
@@ -16,6 +17,7 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
    
     private var locationManager = CLLocationManager()
     weak var delegate: LocationDelegate?
+    lazy var foreCastVC = ForeCastWeatherVC()
     
     //MARK: OVERRIDING INITIALISERS
     
@@ -33,6 +35,8 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
         }
     }
 
+    
+    
     func startUpdatingLocation() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()
@@ -41,6 +45,8 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
         }
     }
 
+    
+    
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .notDetermined:
@@ -54,6 +60,8 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         fetchLocationName()
         locationManager.stopUpdatingLocation()
@@ -63,7 +71,10 @@ class UserLocation: NSObject, CLLocationManagerDelegate {
         print("Failed to get location: \(error.localizedDescription)")
     }
     
-    //MARK: Geocoder is used to get the name of place as per the the coordinates, two types forward and reverse
+    
+    
+    
+//MARK: Geocoder is used to get the name of place as per the the coordinates, two types forward and reverse
 func fetchLocationName() {
        
         guard let location = locationManager.location else {
@@ -91,6 +102,9 @@ func fetchLocationName() {
             
            
         }
-    }
+  
     
-}
+    }
+        }
+    
+

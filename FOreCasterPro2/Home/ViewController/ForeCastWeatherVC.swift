@@ -1,10 +1,12 @@
 //
 //  ForeCastWeatherVC.swift
 //  FOreCasterPro2
+//
 //  Created by ARYAN SINGHAL on 24/03/25.
 
 
 import UIKit
+import CoreLocation
 
 class ForeCastWeatherVC: UIViewController{
     
@@ -13,13 +15,16 @@ class ForeCastWeatherVC: UIViewController{
     let locationManager = UserLocation()
     
     let forecastFetch = WeatherAPI()
-    
+    let currentWeatherVC = CurrentWeatherVC()
     private var forecastData = [ForeCastModal]()
+    
+    
     
     let activityIndicator = UIActivityIndicatorView()
     
     private lazy var foreCastBackgroundImageView: UIImageView = {
         let forecastImageView = UIImageView()
+        
         forecastImageView.image = UIImage(named: ForeCastProStringConstants.currentBackgroundimage)
         forecastImageView.contentMode = .scaleAspectFill
         forecastImageView.clipsToBounds = true
@@ -121,18 +126,21 @@ class ForeCastWeatherVC: UIViewController{
     //MARK: PRIVATE FUNCTIONS 
     
     func fetchForecast(latitude: Double, longitude: Double) {
-       
+  
         forecastFetch.getForecastWeather(latitude: latitude, longitude: longitude) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let forecastData):
                 DispatchQueue.main.async {
-                    self.forecastCollectionView.reloadData()
+                    
                     self.updateForeCastData(with: forecastData)
                     
+                    self.forecastCollectionView.reloadData()
                     self.activityIndicator.stopAnimating()
                     self.view.isUserInteractionEnabled = true
+                   
+                    
                 }
             
             case .failure(let error):
@@ -141,6 +149,8 @@ class ForeCastWeatherVC: UIViewController{
             }
         }
     }
+    
+    
     private func setupUI() {
         view.addSubview(foreCastBackgroundImageView)
         view.addSubview(titleLabel)
@@ -201,6 +211,8 @@ extension ForeCastWeatherVC: UICollectionViewDelegateFlowLayout {
 extension ForeCastWeatherVC :  LocationDelegate {
     func didUpdateLocation(latitude: Double, longitude: Double, locationName: String) {
        
-        fetchForecast(latitude: latitude, longitude: longitude)
+    fetchForecast(latitude: latitude, longitude: longitude)
+        print(" didupdate location coordinates: \(latitude), \(longitude)")
+        
     }
 }

@@ -50,7 +50,7 @@ struct WeatherAPI {
             }
             
             if let jsonString = String(data: data, encoding: .utf8) {
-                print("Raw API Response: \(jsonString)")
+                print("Raw API Response successfull")
             }
 
             do {
