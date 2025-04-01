@@ -8,8 +8,14 @@
 // MARK: WE ARE CREATING A LOAD FUNCTION THAT FETCHES THE JSON DATA WITH NAME AND HANDLES ERROR
 
 import Foundation
+import Observation
+@Observable
+class ModalData{
+    var landmarks: [Landmark] = load("landmarkData.json")
+}
 
-var landmarks: [Landmark] = load("landmarkData.json")
+
+
 
 // Creating a generic function that has parameter filename
 func load<T: Decodable>(_ fileName: String) -> T {

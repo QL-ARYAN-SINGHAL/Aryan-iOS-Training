@@ -7,8 +7,13 @@
 
 import SwiftUI
 
+
 struct LandmarkDetail: View {
     var landmark: Landmark
+    
+    @Environment(ModalData.self) var modelData
+    
+    
     var body: some View {
         ScrollView{
             MapView(coordinate: landmark.locationCoordinates)
@@ -74,5 +79,5 @@ struct LandmarkDetail: View {
 }
 
 #Preview {
-    LandmarkDetail(landmark: landmarks[1])
+    LandmarkDetail(landmark: ModalData().landmarks[1])
 }

@@ -12,11 +12,12 @@ import SwiftUI
 // MARK: Here we are setting the landmark data model
 struct Landmark: Hashable, Codable,Identifiable {
     
-    let name, category, city, state: String
-    let id: Int
-    let isFeatured, isFavorite: Bool
-    let park: String
-    let description : String
+    var name, category, city, state: String
+    var id: Int
+    var isFeatured, isFavorite: Bool
+    var park: String
+    var description : String
+ 
     // creating a variable that is an instance of the modifier Image()
     private var imageName: String
     var image: Image {

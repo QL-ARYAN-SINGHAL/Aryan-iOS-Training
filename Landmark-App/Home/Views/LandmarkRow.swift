@@ -18,17 +18,26 @@ struct LandmarkRow: View {
                 .font(.title2)
                 .multilineTextAlignment(.leading)
             
+            
+            
 
             Spacer()
+            
+            if landmark.isFavorite{
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.red)
+                    .padding(.trailing , 20)
+                    }
         }
     }
 }
 
 
 #Preview {
-    LandmarkRow(landmark: landmarks[0])
-}
-
-#Preview{
-    LandmarkRow(landmark: landmarks[1])
+    let landmarks = ModalData().landmarks
+    return Group{
+        LandmarkRow(landmark:landmarks[0])
+        
+        LandmarkRow(landmark:landmarks[1])
+    }
 }
