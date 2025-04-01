@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@main
+@main //This shows the netry point of your application
 struct Landmark_AppApp: App {
     var body: some Scene {
         WindowGroup {
