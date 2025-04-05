@@ -25,6 +25,7 @@ struct LoginView: View {
           LoginFields()
         }
         Spacer()
+            
     }
 }
 

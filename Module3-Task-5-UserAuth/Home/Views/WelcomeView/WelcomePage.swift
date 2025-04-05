@@ -31,9 +31,8 @@ struct WelcomePage: View {
 
                 OptionView()
                     .frame(maxWidth: .infinity)
-                    .frame(height: 300)
-                   
-                    .padding(.bottom, 40)
+                    .frame(height: 400)
+              
                  
                     
             }

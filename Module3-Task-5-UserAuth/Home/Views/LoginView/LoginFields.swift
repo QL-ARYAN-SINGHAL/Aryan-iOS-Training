@@ -7,6 +7,29 @@
 
 import SwiftUI
 
+struct ForSecureField: View{
+    @Binding var text : String
+    @State private  var isSecure : Bool = true
+    var body : some View{
+        HStack{
+            if isSecure{
+                SecureField("Password" , text: $text)
+           }
+           else{
+               TextField(text , text : $text)
+           }
+        }
+        .overlay(alignment:.trailing){
+            Image(systemName: isSecure ? "eye.slash" : "eye")
+                .onTapGesture{
+                    isSecure.toggle()
+                }
+        }
+        .padding(.trailing , 15)
+    }
+}
+
+
 struct LoginFields: View {
     @State private var email: String = ""
     @State private var password: String = ""
@@ -27,20 +50,21 @@ struct LoginFields: View {
             
             
             
-            SecureField("Enter your Password", text: $password)
+            ForSecureField(text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .foregroundStyle(.black)
                 .background(Color.white)
                 .accentColor(.black)
                 .frame(width: 300, height: 35)
                 .border(.black)
+                .padding(.bottom , 8)
             
             
             
             Button(action : {
                 
             }, label : {
-              Text(" Submit ")
+              Text(" Log In ")
                     .font(.custom("Poppins-Medium", size: 18))
                     .frame(maxWidth: 300)
                     .frame(height: 48)
@@ -50,13 +74,11 @@ struct LoginFields: View {
                     
                    
             })
-            .padding(.top , 20)
             
             Button("Forgot Password?"){
                 
             }
-           
-            .padding(.top , 17)
+            .padding(.top , 5)
         }
         .padding()
        
