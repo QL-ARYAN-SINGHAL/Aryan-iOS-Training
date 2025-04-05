@@ -74,6 +74,7 @@ struct SignInFields: View {
                 .onChange(of: ageValue) {
                     age = "Age : \(Int($0))"
                 }
+                .frame(width : UIScreen.main.bounds.width*0.5)
             
             TextField("Gender", text: $gender)
                 .textFieldStyle(RoundedBorderTextFieldStyle())

@@ -16,14 +16,14 @@ struct SignInView: View {
                     .scaledToFit()
                     .frame(width: 90, height: 90)
                     .padding(.leading,-20)
-                    .padding(.top , 50)
+                    .padding(.top , 100)
                  
                 
                 Text("SIGN IN")
                     .multilineTextAlignment(.center)
                     .font(Font.custom("Poppins-Medium", size: 30))
                     .frame(width: 300, height : 50)
-                    .padding(10)
+                    
                     .padding(.leading , -20)
             }
             .padding(.top , -100)
@@ -32,6 +32,7 @@ struct SignInView: View {
       
         
     }
+      
 }
 
 #Preview {
