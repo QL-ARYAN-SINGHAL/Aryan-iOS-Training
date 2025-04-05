@@ -11,7 +11,7 @@ import SwiftUI
 struct Module3_Task_5_UserAuthApp: App {
     var body: some Scene {
         WindowGroup {
-            WelcomePage()
+            ContentView()
         }
     }
 }
