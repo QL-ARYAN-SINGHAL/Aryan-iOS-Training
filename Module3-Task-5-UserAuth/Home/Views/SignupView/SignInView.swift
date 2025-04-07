@@ -10,24 +10,13 @@ import SwiftUI
 struct SignInView: View {
     var body: some View {
         VStack{
-            VStack{
-                Image("SignIn")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 90, height: 90)
-                    .padding(.leading,-20)
-                    .padding(.top , 100)
-                 
-                
-                Text("SIGN IN")
-                    .multilineTextAlignment(.center)
-                    .font(Font.custom("Poppins-Medium", size: 30))
-                    .frame(width: 300, height : 50)
-                    
-                    .padding(.leading , -20)
-            }
-            .padding(.top , -100)
+            Text("SignUp")
+                .font(Font.custom("Poppins-Medium", size: 25))
+                .frame(width: 100 , height: 120)
+                .padding(.leading,-150)
+                .padding(.top,-20)
             SignInFields()
+                .padding(.top,-50)
         }
       
         

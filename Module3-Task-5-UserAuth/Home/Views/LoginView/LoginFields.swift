@@ -59,26 +59,6 @@ struct LoginFields: View {
                 .border(.black)
                 .padding(.bottom , 8)
             
-            
-            
-            Button(action : {
-                
-            }, label : {
-              Text(" Log In ")
-                    .font(.custom("Poppins-Medium", size: 18))
-                    .frame(maxWidth: 300)
-                    .frame(height: 48)
-                    .background(Color.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-                    
-                   
-            })
-            
-            Button("Forgot Password?"){
-                
-            }
-            .padding(.top , 5)
         }
         .padding()
        

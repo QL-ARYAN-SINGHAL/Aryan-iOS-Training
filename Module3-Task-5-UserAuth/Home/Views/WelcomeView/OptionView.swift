@@ -20,36 +20,9 @@ struct OptionView: View {
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
 
-                VStack(spacing: 12) {
+            
 
-                    Button(action: {
-                        // Sign In action
-                    }) {
-                        Text("Sign In")
-                            .font(.custom("Poppins-Medium", size: 18))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 48)
-                            .background(Color.black)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    }
-                    .frame(width: 300)
-
-                    NavigationLink(destination: LoginView()) {
-                        Text("Log In")
-                            .font(.custom("Poppins-Medium", size: 18))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 48)
-                            .background(Color.black)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    }
-                    .frame(width: 300)
-
-                }
-                .padding(.horizontal, 32)
-
-                Spacer(minLength: 20)
+       
             }
             .padding()
             .background(Color.white)
