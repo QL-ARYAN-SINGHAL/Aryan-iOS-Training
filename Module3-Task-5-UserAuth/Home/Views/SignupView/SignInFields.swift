@@ -2,8 +2,8 @@ import SwiftUI
 
 struct SignInFields: View {
     
-    @State private var username: String = ""
-    @State private var password: String = ""
+    @StateObject var signInValidation = SignInValidation()
+   
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var confirmPassword: String = ""
@@ -11,11 +11,18 @@ struct SignInFields: View {
 
     @State private var ageValue: Double = 12
     @State private var isGender = false
+    @State private  var alertValidationType: alertType = .email
     
+    enum alertType{
+        case email,password
+        case logout
+    }
     var body: some View {
+        
+       
         VStack {
             
-            TextField("Username", text: $username)
+            TextField("Email", text: $signInValidation.email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .foregroundStyle(.black)
                 .background(Color.white)
@@ -42,7 +49,7 @@ struct SignInFields: View {
                 .border(.black)
                 .padding(.bottom, 15)
             
-            TextField("Password", text: $password)
+            SecureField("Password", text: $signInValidation.password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .foregroundStyle(.black)
                 .background(Color.white)
@@ -106,9 +113,9 @@ struct SignInFields: View {
 
             
             Button(action: {
-               
-                
-                
+                //MARK: ffuntion calling for validation on clock of the button
+                signInValidation.isEmailValid()
+                signInValidation.isPassword()
             }, label: {
                 Text(" Sign In ")
                     .font(.custom("Poppins-Medium", size: 18))
@@ -118,6 +125,29 @@ struct SignInFields: View {
                     .foregroundColor(.white)
                     .cornerRadius(12)
             })
+//MARK: ALERTS FOR VALIDATION PURPOSE
+            .alert(isPresented: $signInValidation.showAlert) {
+                
+                switch alertValidationType{
+                case .email:
+                    Alert(title: Text("Invalid Email"),
+                          message: Text("Please enter a valid email address."),
+                          dismissButton: .default(Text("OK")))
+                case .password:
+                    Alert(title: Text("Invalid Password"),
+                          message: Text("Include at least two uppercase letters (e.g., A, B). \nInclude at least one special character (e.g., @, #, $, etc.). \nInclude at least two digits (e.g., 0, 1, 9).\nInclude at least three lowercase letters (e.g., a, b, c).\nBe exactly 8 characters long."),
+                          dismissButton: .default(Text("OK")))
+                }
+                            
+                          }
+          
+         
+            
+            
+            
+            
+            
+            
         }
     }
 }
