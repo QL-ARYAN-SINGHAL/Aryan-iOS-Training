@@ -22,150 +22,153 @@ struct SignInFields: View {
         case logout
     }
     var body: some View {
-        
-        NavigationStack{
-            VStack {
-                
-                TextField("Email", text: $signInValidation.email)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .foregroundStyle(.black)
-                    .background(Color.white)
-                    .accentColor(.black)
-                    .frame(width: 300, height: 35)
-                    .border(.black)
-                    .padding(.bottom, 15)
-                
-                TextField("Firstname", text: $firstName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .foregroundStyle(.black)
-                    .background(Color.white)
-                    .accentColor(.black)
-                    .frame(width: 300, height: 35)
-                    .border(.black)
-                    .padding(.bottom, 15)
-                
-                TextField("Lastname", text: $lastName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .foregroundStyle(.black)
-                    .background(Color.white)
-                    .accentColor(.black)
-                    .frame(width: 300, height: 35)
-                    .border(.black)
-                    .padding(.bottom, 15)
-                
-                SecureField("Password", text: $signInValidation.password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .foregroundStyle(.black)
-                    .background(Color.white)
-                    .accentColor(.black)
-                    .frame(width: 300, height: 35)
-                    .border(.black)
-                    .padding(.bottom, 15)
-                
-                TextField("Confirm Password", text: $confirmPassword)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .foregroundStyle(.black)
-                    .background(Color.white)
-                    .accentColor(.black)
-                    .frame(width: 300, height: 35)
-                    .border(.black)
-                    .padding(.bottom, 15)
-                
-                TextField("Age", text: $age)
-                
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .foregroundStyle(.black)
-                
-                    .accentColor(.black)
-                    .frame(width: 300, height: 35)
-                
-                
-                
-                Slider(value: $ageValue, in: 12...70, step: 1)
-                    .padding(.horizontal,30)
-                    .accentColor(.red)
-                    .onChange(of: ageValue) {
-                        age = "Age : \(Int($0))"
-                    }
-                    .frame(width : UIScreen.main.bounds.width*0.6)
-                    .padding(.leading,-128)
-                
-                
-                VStack(alignment: .leading) {
-                    Text("Gender: \(selectedGender)")
+      
+            
+            
+            NavigationStack{
+                VStack {
+                    
+                    TextField("Email", text: $signInValidation.email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .foregroundStyle(.black)
-                        .font(.system(size: 18, weight: .bold))
-                        .padding(.top , -40)
+                        .background(Color.white)
+                        .accentColor(.black)
+                        .frame(width: 300, height: 35)
+                        .border(.black)
+                        .padding(.bottom, 15)
+                    
+                    TextField("Firstname", text: $firstName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .foregroundStyle(.black)
+                        .background(Color.white)
+                        .accentColor(.black)
+                        .frame(width: 300, height: 35)
+                        .border(.black)
+                        .padding(.bottom, 15)
+                    
+                    TextField("Lastname", text: $lastName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .foregroundStyle(.black)
+                        .background(Color.white)
+                        .accentColor(.black)
+                        .frame(width: 300, height: 35)
+                        .border(.black)
+                        .padding(.bottom, 15)
+                    
+                    SecureField("Password", text: $signInValidation.password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .foregroundStyle(.black)
+                        .background(Color.white)
+                        .accentColor(.black)
+                        .frame(width: 300, height: 35)
+                        .border(.black)
+                        .padding(.bottom, 15)
+                    
+                    TextField("Confirm Password", text: $confirmPassword)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .foregroundStyle(.black)
+                        .background(Color.white)
+                        .accentColor(.black)
+                        .frame(width: 300, height: 35)
+                        .border(.black)
+                        .padding(.bottom, 15)
+                    
+                    TextField("Age", text: $age)
+                    
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .foregroundStyle(.black)
+                    
+                        .accentColor(.black)
+                        .frame(width: 300, height: 35)
+                    
+                    
+                    
+                    Slider(value: $ageValue, in: 12...70, step: 1)
+                        .padding(.horizontal,30)
+                        .accentColor(.red)
+                        .onChange(of: ageValue) {
+                            age = "Age : \(Int($0))"
+                        }
+                        .frame(width : UIScreen.main.bounds.width*0.6)
+                        .padding(.leading,-128)
+                    
                     
                     VStack(alignment: .leading) {
-                        HStack {
-                            Text("Female")
-                            Toggle("", isOn: Binding(
-                                get: { isFemale },
-                                set: { newValue in
-                                    isFemale = newValue
-                                    if newValue {
-                                        isMale = false
-                                        isNonBinary = false
-                                        selectedGender = "Female"
-                                    } else if !isMale && !isNonBinary {
-                                        selectedGender = "Select a gender"
-                                    }
-                                }
-                            ))
-                            .labelsHidden()
-                        }
+                        Text("Gender: \(selectedGender)")
+                            .foregroundStyle(.black)
+                            .font(.system(size: 18, weight: .bold))
+                            .padding(.top , -40)
                         
-                        HStack {
-                            Text("Male")
-                            Toggle("", isOn: Binding(
-                                get: { isMale },
-                                set: { newValue in
-                                    isMale = newValue
-                                    if newValue {
-                                        isFemale = false
-                                        isNonBinary = false
-                                        selectedGender = "Male"
-                                    } else if !isFemale && !isNonBinary {
-                                        selectedGender = "Select a gender"
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Female")
+                                Toggle("", isOn: Binding(
+                                    get: { isFemale },
+                                    set: { newValue in
+                                        isFemale = newValue
+                                        if newValue {
+                                            isMale = false
+                                            isNonBinary = false
+                                            selectedGender = "Female"
+                                        } else if !isMale && !isNonBinary {
+                                            selectedGender = "Select a gender"
+                                        }
                                     }
-                                }
-                            ))
-                            .labelsHidden()
-                        }
-                        
-                        HStack {
-                            Text("Non-Binary")
-                            Toggle("", isOn: Binding(
-                                get: { isNonBinary },
-                                set: { newValue in
-                                    isNonBinary = newValue
-                                    if newValue {
-                                        isFemale = false
-                                        isMale = false
-                                        selectedGender = "Non-Binary"
-                                    } else if !isFemale && !isMale {
-                                        selectedGender = "Select a gender"
+                                ))
+                                .labelsHidden()
+                            }
+                            
+                            HStack {
+                                Text("Male")
+                                Toggle("", isOn: Binding(
+                                    get: { isMale },
+                                    set: { newValue in
+                                        isMale = newValue
+                                        if newValue {
+                                            isFemale = false
+                                            isNonBinary = false
+                                            selectedGender = "Male"
+                                        } else if !isFemale && !isNonBinary {
+                                            selectedGender = "Select a gender"
+                                        }
                                     }
-                                }
-                            ))
-                            .labelsHidden()
+                                ))
+                                .labelsHidden()
+                            }
+                            
+                            HStack {
+                                Text("Non-Binary")
+                                Toggle("", isOn: Binding(
+                                    get: { isNonBinary },
+                                    set: { newValue in
+                                        isNonBinary = newValue
+                                        if newValue {
+                                            isFemale = false
+                                            isMale = false
+                                            selectedGender = "Non-Binary"
+                                        } else if !isFemale && !isMale {
+                                            selectedGender = "Select a gender"
+                                        }
+                                    }
+                                ))
+                                .labelsHidden()
+                            }
                         }
+                        .padding(.top , -20)
                     }
-                    .padding(.top , -20)
+                    .frame(width: 300)
+                    .padding()
+                    
+                    .frame(width: 300)
+                    .padding()
+                    
+                    .frame(width: 300)
+                    .padding()
+                    
+                    
                 }
-                .frame(width: 300)
-                .padding()
-                
-                .frame(width: 300)
-                .padding()
-                
-                .frame(width: 300)
-                .padding()
-                
-                
             }
-        }
+        
     }
 }
 
