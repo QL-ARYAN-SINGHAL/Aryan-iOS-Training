@@ -6,8 +6,6 @@ struct SignInFields: View {
     
     @State private var firstName: String = ""
     @State private var lastName: String = ""
-    @State private var password: String = ""
-    @State private var confirmPassword: String = ""
     @State private var age: String = "Age : "
     @State private var isFemale = false
     @State private var isMale = false
@@ -51,7 +49,7 @@ struct SignInFields: View {
                         .border(.black)
                         .padding(.bottom, 15)
                     
-                    SecureField("Password", text: $password)
+                    SecureField("Password", text: $signUpValidation.password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .foregroundStyle(.black)
                         .background(Color.white)
@@ -60,7 +58,7 @@ struct SignInFields: View {
                         .border(.black)
                         .padding(.bottom, 15)
                     
-                    TextField("Confirm Password", text: $confirmPassword)
+                    TextField("Confirm Password", text: $signUpValidation.confirmPassword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .foregroundStyle(.black)
                         .background(Color.white)

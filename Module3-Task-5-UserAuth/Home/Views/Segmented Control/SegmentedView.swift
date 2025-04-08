@@ -57,15 +57,18 @@ struct SegmentedView: View {
                     Button(action: {
                         if currentView == 0 {
                             let isValid = formValidation.isEmailValid()
-                            if isValid {
+                            let isPasswordValid = formValidation.isPasswordValid()
+                            if isValid && isPasswordValid {
                                 shouldNavigate = true
                             }
                         } else {
                             let isValid = formValidation.isEmailValid()
-                            if isValid {
+                            let isPasswordValid = formValidation.isPasswordValid()
+                            let confirmPassword = formValidation.isPasswordConfirmValid()
+                            if isValid && isPasswordValid && confirmPassword {
                                 shouldNavigate = true
                             }
-                           
+                          
                         }
                     },label: {
                         Text(signInButtonText)
@@ -78,8 +81,8 @@ struct SegmentedView: View {
                     })
                     .alert(isPresented: $formValidation.showAlert) {
                         Alert(
-                            title: Text("Invalid Email"),
-                            message: Text("Please enter a valid email address."),
+                            title: Text("Invalid Credentials"),
+                            message: Text("Either email or password is incorrect!"),
                             dismissButton: .default(Text("OK"))
                         )
                     }

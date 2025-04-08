@@ -52,7 +52,7 @@ struct LoginFields: View {
             
             
             
-            ForSecureField(text: $password)
+            ForSecureField(text: $logInValidation.password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .foregroundStyle(.black)
                 .background(Color.white)
