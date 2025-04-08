@@ -9,24 +9,27 @@ import SwiftUI
 
 struct LoginView: View {
     var body: some View {
-        VStack{
+  
             VStack{
-              Image("Login")
-                  .resizable()
-                  .scaledToFit()
-                  .frame(width: 70, height: 70)
-                  .multilineTextAlignment(.center)
-              
-              Text("LOGIN")
-                  .multilineTextAlignment(.center)
-                  .font(Font.custom("Poppins-Medium", size: 30))
-                  .frame(width: 300, height : 50)
-          }
-          LoginFields()
+                VStack{
+                  Image("Login")
+                      .resizable()
+                      .scaledToFit()
+                      .frame(width: 70, height: 70)
+                      .multilineTextAlignment(.center)
+                  
+                  Text("LOGIN")
+                      .multilineTextAlignment(.center)
+                      .font(Font.custom("Poppins-Medium", size: 30))
+                      .frame(width: 300, height : 50)
+              }
+              LoginFields()
+            }
         }
-        Spacer()
-            
-    }
+       
+    
+         
+   
 }
 
 #Preview {

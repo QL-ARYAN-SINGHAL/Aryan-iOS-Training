@@ -35,8 +35,9 @@ struct WelcomePage: View {
                     OptionView()
                         .frame(maxWidth: .infinity)
                         .frame(height: 400)
+                      
                     
-                    VStack(spacing: 12) {
+                    VStack {
                         
                         NavigationLink(destination: SegmentedView()) {
                             Text("GET STARTED")
@@ -48,7 +49,7 @@ struct WelcomePage: View {
                                 .cornerRadius(12)
                         }
                         .frame(width: 300)
-                        
+                        .navigationBarBackButtonHidden()
                     }
                     .padding(.horizontal, 32)
                     

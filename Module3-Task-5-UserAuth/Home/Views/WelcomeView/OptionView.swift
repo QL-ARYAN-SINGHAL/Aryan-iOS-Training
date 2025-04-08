@@ -4,7 +4,7 @@ struct OptionView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
-                Spacer(minLength: 20)
+                
 
                 Image("AuthImage")
                     .resizable()
@@ -13,7 +13,7 @@ struct OptionView: View {
                     .padding(.top , 5)
 
                 Text("QuickAuth ensures secure and seamless authentication for users, prioritizing speed and reliability.")
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .font(.custom("Poppins-Medium", size: 16))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
@@ -25,7 +25,7 @@ struct OptionView: View {
        
             }
             .padding()
-            .background(Color.white)
+            .background(Color.clear)
             .cornerRadius(20)
             .shadow(radius: 5)
             .padding(.horizontal, 16)

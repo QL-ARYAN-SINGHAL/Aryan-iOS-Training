@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignInView: View {
     var body: some View {
-        ScrollView(showsIndicators: false){
+       
             
             VStack{
                 Text("SignUp")
@@ -18,9 +18,13 @@ struct SignInView: View {
                     .padding(.leading,-150)
                     .padding(.top,-20)
                 SignInFields()
-                    .padding(.top,-50)
+                    .padding(.top,-30)
+                
+                //MARK: Implementation of progress bar to track the field precentage
+                
+                
             }
-        }
+        
         
         
     }

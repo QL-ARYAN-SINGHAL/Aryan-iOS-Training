@@ -93,15 +93,17 @@ struct SignInFields: View {
                         .padding(.leading,-128)
                     
                     
-                    VStack(alignment: .leading) {
+                    VStack {
                         Text("Gender: \(selectedGender)")
                             .foregroundStyle(.black)
                             .font(.system(size: 18, weight: .bold))
-                            .padding(.top , -40)
-                        
-                        VStack(alignment: .leading) {
+                            .frame(width: 300, alignment: .leading)
+                            .padding(.top, 10)
+
+                        VStack(alignment: .leading, spacing: 16) {
                             HStack {
                                 Text("Female")
+                                Spacer()
                                 Toggle("", isOn: Binding(
                                     get: { isFemale },
                                     set: { newValue in
@@ -117,9 +119,10 @@ struct SignInFields: View {
                                 ))
                                 .labelsHidden()
                             }
-                            
+
                             HStack {
                                 Text("Male")
+                                Spacer()
                                 Toggle("", isOn: Binding(
                                     get: { isMale },
                                     set: { newValue in
@@ -135,9 +138,10 @@ struct SignInFields: View {
                                 ))
                                 .labelsHidden()
                             }
-                            
+
                             HStack {
                                 Text("Non-Binary")
+                                Spacer()
                                 Toggle("", isOn: Binding(
                                     get: { isNonBinary },
                                     set: { newValue in
@@ -154,22 +158,17 @@ struct SignInFields: View {
                                 .labelsHidden()
                             }
                         }
-                        .padding(.top , -20)
+                        .padding(.top, 10)
                     }
                     .frame(width: 300)
                     .padding()
-                    
-                    .frame(width: 300)
-                    .padding()
-                    
-                    .frame(width: 300)
-                    .padding()
-                    
+
                     
                 }
             }
-        
+         
     }
+    
 }
 
 

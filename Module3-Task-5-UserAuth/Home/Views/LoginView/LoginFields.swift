@@ -10,13 +10,15 @@ import SwiftUI
 struct ForSecureField: View{
     @Binding var text : String
     @State private  var isSecure : Bool = true
+   
+    
     var body : some View{
         HStack{
             if isSecure{
                 SecureField("Password" , text: $text)
            }
            else{
-               TextField(text , text : $text)
+               TextField("Password" , text : $text)
            }
         }
         .overlay(alignment:.trailing){
@@ -33,12 +35,13 @@ struct ForSecureField: View{
 struct LoginFields: View {
     @State private var email: String = ""
     @State private var password: String = ""
-
+    @StateObject var logInValidation = LogInValidation()
+    
     var body: some View {
         VStack(spacing: 20) {
             
             
-            TextField("Enter your Email", text: $email)
+            TextField("Enter your Email", text: $logInValidation.email)
              
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .foregroundStyle(.black)

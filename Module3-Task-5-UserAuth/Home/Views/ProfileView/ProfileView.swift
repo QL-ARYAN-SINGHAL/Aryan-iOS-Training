@@ -36,8 +36,9 @@ struct ProfileView: View {
                         .padding(.horizontal, 40)
                 }
                 .alert("Log Out", isPresented: $showLogoutAlert) {
-                    Button("Yes") {
-                        isLoggedOut = true
+                    NavigationLink("Yes") {
+                      
+                        WelcomePage()
                     }
                     Button("Cancel", role: .cancel) {}
                 } message: {
@@ -45,10 +46,6 @@ struct ProfileView: View {
                 }
 
                
-                NavigationLink(destination: WelcomePage(), isActive: $isLoggedOut) {
-                    
-                    EmptyView() // it rperesents absence of a view
-                }
             }
             .padding()
         }
