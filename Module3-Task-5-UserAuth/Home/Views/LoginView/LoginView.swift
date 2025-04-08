@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct LoginView: View {
+    
+    @ObservedObject var loginViewModel : LogInValidation
+    
     var body: some View {
   
             VStack{
@@ -23,7 +26,7 @@ struct LoginView: View {
                       .font(Font.custom("Poppins-Medium", size: 30))
                       .frame(width: 300, height : 50)
               }
-              LoginFields()
+                LoginFields(logInValidation: loginViewModel)
             }
         }
        
@@ -33,5 +36,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+//    LoginView()
 }

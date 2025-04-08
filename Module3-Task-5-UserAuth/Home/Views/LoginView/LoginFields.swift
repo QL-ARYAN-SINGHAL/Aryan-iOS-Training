@@ -35,14 +35,13 @@ struct ForSecureField: View{
 struct LoginFields: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @StateObject var logInValidation = LogInValidation()
+    @ObservedObject var logInValidation : LogInValidation
     
     var body: some View {
         VStack(spacing: 20) {
             
             
             TextField("Enter your Email", text: $logInValidation.email)
-             
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .foregroundStyle(.black)
                 .background(Color.white)
@@ -69,5 +68,5 @@ struct LoginFields: View {
 }
 
 #Preview {
-    LoginFields()
+
 }

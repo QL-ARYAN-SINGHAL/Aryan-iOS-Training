@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SignInView: View {
+    @State private var progressPercentage : Int = 30
+    @ObservedObject var signUpViewModal : LogInValidation
     var body: some View {
        
             
@@ -17,12 +19,23 @@ struct SignInView: View {
                     .frame(width: 100 , height: 120)
                     .padding(.leading,-150)
                     .padding(.top,-20)
-                SignInFields()
+                SignInFields(signUpValidation:signUpViewModal)
                     .padding(.top,-30)
                 
                 //MARK: Implementation of progress bar to track the field precentage
-                
-                
+                Divider()
+                    .background(.black)
+                    
+                Text("Progress : \(progressPercentage)%")
+                    .frame(maxWidth: .infinity,alignment: .leading)
+                    .padding(.leading,20)
+                HStack{
+                  Text("0%")
+                    ProgressView(value: Double(progressPercentage)/100)
+                        .frame(width: 200, height: 20)
+                       
+                    Text("100%")
+                }
             }
         
         
@@ -32,5 +45,5 @@ struct SignInView: View {
 }
 
 #Preview {
-    SignInView()
+  //  SignInView()
 }

@@ -10,10 +10,12 @@ import SwiftUI
 struct SegmentedView: View {
     
     @State private var currentView = 0
+    @StateObject private var formValidation = LogInValidation()
+    @State private var shouldNavigate = false
+    
     private var signInButtonText: String {
         currentView == 0 ? "Log In" : "Sign Up"
     }
-    
     
     private var loginDot: String {
         currentView == 0 ? "circle.fill" : "circle"
@@ -23,43 +25,49 @@ struct SegmentedView: View {
         currentView == 1 ? "circle.fill" : "circle"
     }
     
-    
     var body: some View {
-        
-        NavigationStack{
-       
-                VStack {
-                    ScrollView(showsIndicators: false){
-                        HStack(spacing: 10) {
-                            Image(systemName: loginDot)
-                            Image(systemName: signinDot)
-                        }
-                        .frame(maxWidth:.greatestFiniteMagnitude , alignment: .trailing)
-                        .padding(.trailing,15)
-                    
-                        
-                        Picker("Currently on", selection: $currentView) {
-                            Text("LogIn").tag(0)
-                            Text("SignUp").tag(1)
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.horizontal, 20)
-                        
-                        if currentView == 0 {
-                            LoginView()
-                                .padding(.top, 50)
-                                .navigationBarBackButtonHidden()
-                            
-                            
-                            
-                        } else if currentView == 1 {
-                            SignInView()
-                            
-                                .navigationBarBackButtonHidden()
-                            
-                        }
+        NavigationStack {
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        Image(systemName: loginDot)
+                        Image(systemName: signinDot)
                     }
-                    VStack{  NavigationLink(destination: ProfileView(), label: {
+                    .frame(maxWidth: .greatestFiniteMagnitude, alignment: .trailing)
+                    .padding(.trailing, 15)
+                    
+                    Picker("Currently on", selection: $currentView) {
+                        Text("LogIn").tag(0)
+                        Text("SignUp").tag(1)
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal, 20)
+                    
+                    if currentView == 0 {
+                        LoginView(loginViewModel: formValidation)
+                            .padding(.top, 50)
+                            .navigationBarBackButtonHidden()
+                    } else if currentView == 1 {
+                        SignInView(signUpViewModal:formValidation)
+                            .navigationBarBackButtonHidden()
+                    }
+                }
+                
+                VStack {
+                    Button(action: {
+                        if currentView == 0 {
+                            let isValid = formValidation.isEmailValid()
+                            if isValid {
+                                shouldNavigate = true
+                            }
+                        } else {
+                            let isValid = formValidation.isEmailValid()
+                            if isValid {
+                                shouldNavigate = true
+                            }
+                           
+                        }
+                    },label: {
                         Text(signInButtonText)
                             .font(.custom("Poppins-Medium", size: 18))
                             .frame(maxWidth: 300)
@@ -67,22 +75,26 @@ struct SegmentedView: View {
                             .background(Color.black)
                             .foregroundColor(.white)
                             .cornerRadius(12)
-                        
                     })
+                    .alert(isPresented: $formValidation.showAlert) {
+                        Alert(
+                            title: Text("Invalid Email"),
+                            message: Text("Please enter a valid email address."),
+                            dismissButton: .default(Text("OK"))
+                        )
                     }
                     
+                    NavigationLink(destination: ProfileView(), isActive: $shouldNavigate) {
+                        EmptyView()
+                    }
+                    .hidden()
                 }
-                
-                .padding(.top, 20)
-                
-                
-                
             }
-            .padding(.top, 50)
-            
+            .padding(.top, 20)
         }
+        .padding(.top, 50)
     }
-
+}
 
 #Preview {
     SegmentedView()
