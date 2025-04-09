@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignInView: View {
     @State private var progressPercentage : Int = 30
-    @ObservedObject var signUpViewModal : LogInValidation
+    @StateObject var signUpViewModal : LogInValidation
   
     var body: some View {
        
@@ -32,7 +32,7 @@ struct SignInView: View {
                     .padding(.leading,20)
                 HStack{
                   Text("0%")
-                    ProgressView(value: Double(signUpViewModal.progressValue())/100)
+                    ProgressView(value: Double(signUpViewModal.progressValue())/100,total: 100.0)
                         .frame(width: 200, height: 20)
                        
                     Text("100%")

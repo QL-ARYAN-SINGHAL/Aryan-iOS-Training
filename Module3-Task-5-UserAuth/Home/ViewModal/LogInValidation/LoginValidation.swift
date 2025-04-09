@@ -10,17 +10,19 @@ import SwiftUI
 import Combine
 
 class LogInValidation: ObservableObject {
+    
     @Published var email = ""
     @Published var password = ""
     @Published var confirmPassword = ""
     @Published var showAlert = false
     
-    @Published private var value:Double=0.0
-    @Published private var firstName : String = ""
+    @Published  var value:Double = 0.0
+    @Published  var firstName : String = ""
    
-    @Published private var lastName : String = ""
-   
-    @Published private var gender : String = ""
+    @Published  var lastName : String = ""
+    
+    @Published  var selectedGender : String = "Select a gender"
+    @Published  var ageValue : Double = 12
     
     //MARK: Email VALIDATION CODE
     func isEmailValid() -> Bool {
@@ -74,34 +76,56 @@ class LogInValidation: ObservableObject {
         guard value <= 100 else {
             return value
         }
-            
-        print("progress vvbjvbkbjv-0--------------------")
-            if !firstName.isEmpty{
-                value+=14.3
-            }
-            if !email.isEmpty{
-                DispatchQueue.main.async {
-                    self.value+=14.3
-                }
-                
-            }
-            if !lastName.isEmpty{
-                DispatchQueue.main.async {
-                    self.value+=14.3
-                }
-            }
-            if !password.isEmpty && !confirmPassword.isEmpty{
-                DispatchQueue.main.async {
-                    self.value+=14.3
-                }
-            }
-            if !gender.isEmpty{
-                DispatchQueue.main.async {
-                    self.value+=14.3
-                }
-            }
-      
+    
+   
+    
+            print("------")
+            switch (self.firstName, self.email, self.lastName, self.password, self.confirmPassword, self.selectedGender) {
+               case let (fn, _, _, _, _, _) where !fn.isEmpty:
+                self.value += 14.3
+               case let (_, e, _, _, _, _) where !e.isEmpty:
+                self.value += 14.3
+               case let (_, _, l, _, _, _) where !l.isEmpty:
+                self.value += 14.3
+               case let (_, _, _, p, cp, _) where !p.isEmpty && !cp.isEmpty:
+                self.value += 14.3
+               case let (_, _, _, _, _, g) where !g.isEmpty:
+                self.value += 14.3
+          
+               default:
+                   break
+               }
+    
         return value
+//        print("progress vvbjvbkbjv-0--------------------")
+//            if !firstName.isEmpty{
+//                DispatchQueue.main.async {
+//                    self.value+=14.3
+//                }
+//            }
+//            if !email.isEmpty{
+//                DispatchQueue.main.async {
+//                    self.value+=14.3
+//                }
+//                
+//            }
+//            if !lastName.isEmpty{
+//                DispatchQueue.main.async {
+//                    self.value+=14.3
+//                }
+//            }
+//            if !password.isEmpty && !confirmPassword.isEmpty{
+//                DispatchQueue.main.async {
+//                    self.value+=14.3
+//                }
+//            }
+//            if !gender.isEmpty{
+//                DispatchQueue.main.async {
+//                    self.value+=14.3
+//                }
+//            }
+//      
+//        return value
     }
     
 }

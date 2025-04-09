@@ -2,17 +2,11 @@ import SwiftUI
 
 struct SignInFields: View {
     
-    @ObservedObject var signUpValidation : LogInValidation
-    
-    @State private var firstName: String = ""
-    @State private var lastName: String = ""
+    @StateObject var signUpValidation : LogInValidation
     @State private var age: String = "Age : "
     @State private var isFemale = false
     @State private var isMale = false
     @State private var isNonBinary = false
-    @State private var selectedGender: String = "Select a gender"
-    
-    @State private var ageValue: Double = 12
     @State private var isGender = false
    
     var body: some View {
@@ -31,7 +25,7 @@ struct SignInFields: View {
                         .border(.black)
                         .padding(.bottom, 15)
                     
-                    TextField("Firstname", text: $firstName)
+                    TextField("Firstname", text: $signUpValidation.firstName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .foregroundStyle(.black)
                         .background(Color.white)
@@ -40,7 +34,7 @@ struct SignInFields: View {
                         .border(.black)
                         .padding(.bottom, 15)
                     
-                    TextField("Lastname", text: $lastName)
+                    TextField("Lastname", text: $signUpValidation.lastName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .foregroundStyle(.black)
                         .background(Color.white)
@@ -77,10 +71,10 @@ struct SignInFields: View {
                     
                     
                     
-                    Slider(value: $ageValue, in: 12...70, step: 1)
+                    Slider(value: $signUpValidation.ageValue, in: 12...70, step: 1)
                         .padding(.horizontal,30)
                         .accentColor(.red)
-                        .onChange(of: ageValue) {
+                        .onChange(of: signUpValidation.ageValue) {
                             age = "Age : \(Int($0))"
                         }
                         .frame(width : UIScreen.main.bounds.width*0.6)
@@ -88,7 +82,7 @@ struct SignInFields: View {
                     
                     
                     VStack {
-                        Text("Gender: \(selectedGender)")
+                        Text("Gender: \(signUpValidation.selectedGender)")
                             .foregroundStyle(.black)
                             .font(.system(size: 18, weight: .bold))
                             .frame(width: 300, alignment: .leading)
@@ -105,9 +99,9 @@ struct SignInFields: View {
                                         if newValue {
                                             isMale = false
                                             isNonBinary = false
-                                            selectedGender = "Female"
+                                            signUpValidation.selectedGender = "Female"
                                         } else if !isMale && !isNonBinary {
-                                            selectedGender = "Select a gender"
+                                            signUpValidation.selectedGender = "Select a gender"
                                         }
                                     }
                                 ))
@@ -124,9 +118,9 @@ struct SignInFields: View {
                                         if newValue {
                                             isFemale = false
                                             isNonBinary = false
-                                            selectedGender = "Male"
+                                            signUpValidation.selectedGender = "Male"
                                         } else if !isFemale && !isNonBinary {
-                                            selectedGender = "Select a gender"
+                                            signUpValidation.selectedGender = "Select a gender"
                                         }
                                     }
                                 ))
@@ -143,9 +137,9 @@ struct SignInFields: View {
                                         if newValue {
                                             isFemale = false
                                             isMale = false
-                                            selectedGender = "Non-Binary"
+                                            signUpValidation.selectedGender = "Non-Binary"
                                         } else if !isFemale && !isMale {
-                                            selectedGender = "Select a gender"
+                                            signUpValidation.selectedGender = "Select a gender"
                                         }
                                     }
                                 ))
