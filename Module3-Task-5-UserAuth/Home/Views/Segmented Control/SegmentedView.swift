@@ -94,8 +94,15 @@ struct SegmentedView: View {
                 }
             }
             .padding(.top, 20)
+            
+            .navigationTitle("QuickAuth")
+            .navigationBarTitleDisplayMode(.large)
+          
+           
+           
         }
-        .padding(.top, 50)
+       
+        
     }
 }
 

@@ -49,6 +49,7 @@ struct ProfileView: View {
             }
             .padding()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

@@ -30,8 +30,8 @@
             filePath = "Module3-Task-5-UserAuth/Home/ViewModal/LogInValidation/LoginValidation.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "isPasswordConfirmValid()"
             landmarkType = "7">
          </BreakpointContent>
@@ -39,15 +39,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "42C78CD1-D04C-4FBE-B268-117BE988B8A0"
+            uuid = "37AA240A-C0B7-43ED-BE58-44BBE9B71DB9"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Module3-Task-5-UserAuth/Home/ViewModal/LogInValidation/LoginValidation.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "progressValue()"
             landmarkType = "7">
          </BreakpointContent>

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-import Combine
 
 class LogInValidation: ObservableObject {
     
@@ -20,9 +19,12 @@ class LogInValidation: ObservableObject {
     @Published  var firstName : String = ""
    
     @Published  var lastName : String = ""
-    
-    @Published  var selectedGender : String = "Select a gender"
+    @Published  var age: String = "Age: \(0)"
+    @Published  var selectedGender : String = ""
     @Published  var ageValue : Double = 12
+    
+    
+   
     
     //MARK: Email VALIDATION CODE
     func isEmailValid() -> Bool {
@@ -37,6 +39,15 @@ class LogInValidation: ObservableObject {
         return isValid
     }
     
+    
+    //MARK: Password regex meaning
+    ////^                         Start anchor
+    //(?=.*[A-Z].*[A-Z])        Ensure string has two uppercase letters.
+    //(?=.*[!@#$&*])            Ensure string has one special case letter.
+    //(?=.*[0-9].*[0-9])        Ensure string has two digits.
+    //(?=.*[a-z].*[a-z].*[a-z]) Ensure string has three lowercase letters.
+    //.{8}                      Ensure string is of length 8.
+    //$                         End anchor.
     
     //MARK: PASSWORD VALIDATION CODE
     
@@ -66,77 +77,60 @@ class LogInValidation: ObservableObject {
     /// delegate methods ->> easy + efficient + recommended
     /// 
     
-    func progressValue()->Double{
-        
-        
-        // if score is given for a particular attribute/ fiekd then it should not give again.
-        
-        
-        // done , early exit to avoid re-computations
-        guard value <= 100 else {
+    func progressValue() -> Double {
+       
+        guard value <= 100 else{
             return value
         }
-    
-   
-    
-            print("------")
-            switch (self.firstName, self.email, self.lastName, self.password, self.confirmPassword, self.selectedGender) {
-               case let (fn, _, _, _, _, _) where !fn.isEmpty:
-                self.value += 14.3
-               case let (_, e, _, _, _, _) where !e.isEmpty:
-                self.value += 14.3
-               case let (_, _, l, _, _, _) where !l.isEmpty:
-                self.value += 14.3
-               case let (_, _, _, p, cp, _) where !p.isEmpty && !cp.isEmpty:
-                self.value += 14.3
-               case let (_, _, _, _, _, g) where !g.isEmpty:
-                self.value += 14.3
-          
-               default:
-                   break
-               }
-    
+     
+        var newProgress: Double = 0.0
+        DispatchQueue.main.async {
+            
+            if !self.firstName.isEmpty{
+                newProgress += 16.6
+                
+            }
+            if !self.email.isEmpty {
+                newProgress += 17
+                
+            }
+            if !self.lastName.isEmpty {
+                newProgress += 16.6
+                
+            }
+            if !self.password.isEmpty && !self.confirmPassword.isEmpty {
+                newProgress += 16.6
+                
+            }
+            if !self.selectedGender.isEmpty {
+                newProgress += 16.6
+                
+            }
+            if !self.age.isEmpty {
+                newProgress += 16.6
+                
+            }
+            
+            
+            self.value = newProgress
+            
+        }
+     
         return value
-//        print("progress vvbjvbkbjv-0--------------------")
-//            if !firstName.isEmpty{
-//                DispatchQueue.main.async {
-//                    self.value+=14.3
-//                }
-//            }
-//            if !email.isEmpty{
-//                DispatchQueue.main.async {
-//                    self.value+=14.3
-//                }
-//                
-//            }
-//            if !lastName.isEmpty{
-//                DispatchQueue.main.async {
-//                    self.value+=14.3
-//                }
-//            }
-//            if !password.isEmpty && !confirmPassword.isEmpty{
-//                DispatchQueue.main.async {
-//                    self.value+=14.3
-//                }
-//            }
-//            if !gender.isEmpty{
-//                DispatchQueue.main.async {
-//                    self.value+=14.3
-//                }
-//            }
-//      
-//        return value
+        
+    }
+      
+  
+
     }
     
-}
+ 
 
-//MARK: Password regex meaning
-////^                         Start anchor
-//(?=.*[A-Z].*[A-Z])        Ensure string has two uppercase letters.
-//(?=.*[!@#$&*])            Ensure string has one special case letter.
-//(?=.*[0-9].*[0-9])        Ensure string has two digits.
-//(?=.*[a-z].*[a-z].*[a-z]) Ensure string has three lowercase letters.
-//.{8}                      Ensure string is of length 8.
-//$                         End anchor.
+
+
+
+
+
+
 
 

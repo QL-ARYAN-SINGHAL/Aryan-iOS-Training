@@ -54,8 +54,11 @@ struct WelcomePage: View {
                     .padding(.horizontal, 32)
                     
                 }
+                
             }
+           
         }
+     
     }
 }
 

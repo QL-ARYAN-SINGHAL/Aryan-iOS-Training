@@ -2,8 +2,15 @@ import SwiftUI
 
 struct SignInFields: View {
     
+    // After finishing : Do read difference between StateObject and ObservedObjects
+    /// When you own the data use StateObject and if you want to pass data to other view use ObservedObject
+    /// @stateObject = Login()
+    /// Login : @obsevedc d,
+    
+    
     @StateObject var signUpValidation : LogInValidation
-    @State private var age: String = "Age : "
+   
+   
     @State private var isFemale = false
     @State private var isMale = false
     @State private var isNonBinary = false
@@ -16,66 +23,41 @@ struct SignInFields: View {
             NavigationStack{
                 VStack {
                     
-                    TextField("Email", text: $signUpValidation.email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .foregroundStyle(.black)
-                        .background(Color.white)
+                    AppTextField(textFieldPlaceholder: "Email", textFieldValue: $signUpValidation.email)
+                        .onSubmit {
+                            signUpValidation.progressValue()
+                        }
+                    
+                    
+                    AppTextField(textFieldPlaceholder: "First Name ", textFieldValue: $signUpValidation.firstName)
+                        .onSubmit {
+                            signUpValidation.progressValue()
+                        }
+                    
+                    AppTextField(textFieldPlaceholder: "LastName", textFieldValue: $signUpValidation.lastName)
+                        .onSubmit {
+                            signUpValidation.progressValue()
+                        }
+                    
+                    AppTextField(textFieldPlaceholder: "Password", textFieldValue: $signUpValidation.password)
+                        .onSubmit {
+                            signUpValidation.progressValue()
+                        }
+                    
+                    AppTextField(textFieldPlaceholder: "Confirm Password", textFieldValue: $signUpValidation.confirmPassword)
+                        
+                    
+                    AppTextField(textFieldPlaceholder: "Age", textFieldValue: $signUpValidation.age)
                         .accentColor(.black)
-                        .frame(width: 300, height: 35)
-                        .border(.black)
-                        .padding(.bottom, 15)
-                    
-                    TextField("Firstname", text: $signUpValidation.firstName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .foregroundStyle(.black)
-                        .background(Color.white)
-                        .accentColor(.black)
-                        .frame(width: 300, height: 35)
-                        .border(.black)
-                        .padding(.bottom, 15)
-                    
-                    TextField("Lastname", text: $signUpValidation.lastName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .foregroundStyle(.black)
-                        .background(Color.white)
-                        .accentColor(.black)
-                        .frame(width: 300, height: 35)
-                        .border(.black)
-                        .padding(.bottom, 15)
-                    
-                    SecureField("Password", text: $signUpValidation.password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .foregroundStyle(.black)
-                        .background(Color.white)
-                        .accentColor(.black)
-                        .frame(width: 300, height: 35)
-                        .border(.black)
-                        .padding(.bottom, 15)
-                    
-                    TextField("Confirm Password", text: $signUpValidation.confirmPassword)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .foregroundStyle(.black)
-                        .background(Color.white)
-                        .accentColor(.black)
-                        .frame(width: 300, height: 35)
-                        .border(.black)
-                        .padding(.bottom, 15)
-                    
-                    TextField("Age", text: $age)
-                    
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .foregroundStyle(.black)
-                    
-                        .accentColor(.black)
-                        .frame(width: 300, height: 35)
-                    
-                    
+                       
+                        
                     
                     Slider(value: $signUpValidation.ageValue, in: 12...70, step: 1)
                         .padding(.horizontal,30)
                         .accentColor(.red)
                         .onChange(of: signUpValidation.ageValue) {
-                            age = "Age : \(Int($0))"
+                            signUpValidation.age = "Age : \(Int($0))"
+                            signUpValidation.progressValue()
                         }
                         .frame(width : UIScreen.main.bounds.width*0.6)
                         .padding(.leading,-128)
@@ -87,7 +69,11 @@ struct SignInFields: View {
                             .font(.system(size: 18, weight: .bold))
                             .frame(width: 300, alignment: .leading)
                             .padding(.top, 10)
-
+                            .onChange(of: signUpValidation.selectedGender) {
+                              
+                                    signUpValidation.progressValue()
+                                
+                            }
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
                                 Text("Female")
@@ -150,7 +136,7 @@ struct SignInFields: View {
                     }
                     .frame(width: 300)
                     .padding()
-
+                    
                     
                 }
             }
