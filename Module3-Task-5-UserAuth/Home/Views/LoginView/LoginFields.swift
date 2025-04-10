@@ -18,24 +18,36 @@ struct LoginFields: View {
             
             
             TextField("Enter your Email", text: $logInValidation.loginEmail)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .padding(.bottom , 8)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Color.gray.opacity(0.1))
+                .foregroundColor(.black)
+                .font(.system(size: 16, weight: .medium))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+                )
+                .cornerRadius(10)
+                .frame(width: 320, height: 45)
+                .shadow(color: Color.black.opacity(0.06), radius: 3, x: 0, y: 2)
+                .padding(.bottom, 18)
             
             
             
             ForSecureField(text: $logInValidation.loginPassword)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .padding(.bottom , 8)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Color.gray.opacity(0.1))
+                .foregroundColor(.black)
+                .font(.system(size: 16, weight: .medium))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+                )
+                .cornerRadius(10)
+                .frame(width: 320, height: 45)
+                .shadow(color: Color.black.opacity(0.06), radius: 3, x: 0, y: 2)
+                .padding(.bottom, 18)
             
         }
         .padding()

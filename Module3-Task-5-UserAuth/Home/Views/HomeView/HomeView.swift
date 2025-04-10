@@ -6,7 +6,7 @@ struct HomeView: View {
     @State private var showProfile = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack{
             VStack {
                 ZStack {
                     HStack {
@@ -70,6 +70,7 @@ struct HomeView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .navigationTitle("Home")
     }
 }
 

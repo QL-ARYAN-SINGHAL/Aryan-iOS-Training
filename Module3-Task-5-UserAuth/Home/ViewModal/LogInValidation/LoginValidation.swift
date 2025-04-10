@@ -59,18 +59,15 @@ class LogInValidation: ObservableObject {
     
     
     //MARK: Password regex meaning
-    ////^                         Start anchor
-    //(?=.*[A-Z].*[A-Z])        Ensure string has two uppercase letters.
-    //(?=.*[!@#$&*])            Ensure string has one special case letter.
-    //(?=.*[0-9].*[0-9])        Ensure string has two digits.
-    //(?=.*[a-z].*[a-z].*[a-z]) Ensure string has three lowercase letters.
-    //.{8}                      Ensure string is of length 8.
-    //$                         End anchor.
+//    (?=^.{7,}$) At least 7 characters long
+//    (?=^.*[A-Z].*$) At least one uppercase letter
+//    (?=^.*\d.*$) At least one number
+//    .* Match the string that contains all assertions
     
     //MARK: PASSWORD VALIDATION CODE
     
     func isPasswordValid() -> Bool {
-        let passwordRegex = #"(?=^.{7,}$)(?=^.*[A-Z].*$)(?=^.*\d.*$).*"#
+        let passwordRegex = #"(?=^.{7,15}$)(?=^.*[A-Z].*$)(?=^.*\d.*$).*"#
             let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
             let isPasswordValid =  passwordPredicate.evaluate(with: loginPassword)
         if !isPasswordValid{

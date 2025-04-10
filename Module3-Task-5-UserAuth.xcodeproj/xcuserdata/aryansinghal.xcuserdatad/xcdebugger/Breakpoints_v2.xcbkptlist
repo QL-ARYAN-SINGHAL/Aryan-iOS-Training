@@ -14,8 +14,8 @@
             filePath = "Module3-Task-5-UserAuth/Home/ViewModal/LogInValidation/LoginValidation.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "isPasswordConfirmValid()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Module3-Task-5-UserAuth/Home/ViewModal/LogInValidation/LoginValidation.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "progressValue()"
             landmarkType = "7">
          </BreakpointContent>

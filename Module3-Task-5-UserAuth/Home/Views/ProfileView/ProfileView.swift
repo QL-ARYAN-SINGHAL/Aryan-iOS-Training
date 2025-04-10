@@ -28,6 +28,7 @@ struct ProfileView: View {
                 .frame(maxWidth: UIScreen.main.bounds.width*0.8,alignment: .center)
                 .padding(.top,100)
             }
+       
   
     }
 }
