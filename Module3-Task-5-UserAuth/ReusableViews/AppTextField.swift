@@ -21,6 +21,7 @@ struct AppTextField: View {
             .frame(width: 300, height: 35)
             .border(.black)
             .padding(.bottom, 15)
+            
         
   
         

@@ -7,6 +7,42 @@
 
 import SwiftUI
 
+
+
+struct LoginFields: View {
+    
+    @ObservedObject var logInValidation : LogInValidation
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            
+            
+            TextField("Enter your Email", text: $logInValidation.loginEmail)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .foregroundStyle(.black)
+                .background(Color.white)
+                .accentColor(.black)
+                .frame(width: 300, height: 35)
+                .border(.black)
+                .padding(.bottom , 8)
+            
+            
+            
+            ForSecureField(text: $logInValidation.loginPassword)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .foregroundStyle(.black)
+                .background(Color.white)
+                .accentColor(.black)
+                .frame(width: 300, height: 35)
+                .border(.black)
+                .padding(.bottom , 8)
+            
+        }
+        .padding()
+       
+    }
+}
+
 struct ForSecureField: View{
     @Binding var text : String
     @State private  var isSecure : Bool = true
@@ -31,41 +67,6 @@ struct ForSecureField: View{
     }
 }
 
-
-struct LoginFields: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @ObservedObject var logInValidation : LogInValidation
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            
-            
-            TextField("Enter your Email", text: $logInValidation.email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .padding(.bottom , 8)
-            
-            
-            
-            ForSecureField(text: $logInValidation.password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .padding(.bottom , 8)
-            
-        }
-        .padding()
-       
-    }
-}
 
 #Preview {
 

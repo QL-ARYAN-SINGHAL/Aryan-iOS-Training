@@ -62,8 +62,8 @@ struct SegmentedView: View {
                                 shouldNavigate = true
                             }
                         } else {
-                            let isValid = formValidation.isEmailValid()
-                            let isPasswordValid = formValidation.isPasswordValid()
+                            let isValid = formValidation.isSignUpEmailValid()
+                            let isPasswordValid = formValidation.isSignUpPasswordValid()
                             let confirmPassword = formValidation.isPasswordConfirmValid()
                             if isValid && isPasswordValid && confirmPassword {
                                 shouldNavigate = true
@@ -87,7 +87,7 @@ struct SegmentedView: View {
                         )
                     }
                     
-                    NavigationLink(destination: ProfileView(), isActive: $shouldNavigate) {
+                    NavigationLink(destination: HomeView(), isActive: $shouldNavigate) {
                         EmptyView()
                     }
                     .hidden()

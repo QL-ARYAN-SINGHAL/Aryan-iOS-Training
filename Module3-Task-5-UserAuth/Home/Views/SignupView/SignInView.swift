@@ -21,16 +21,17 @@ struct SignInView: View{
             Divider()
                 .background(.black)
             
-            Text("Progress : \(signUpViewModal.value, specifier: "%.2f")%")
+            Text("Progress : \(signUpViewModal.value)%")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 20)
             
             HStack {
                 Text("0%")
-                ProgressView(value: signUpViewModal.value, total: 100.0)
+                ProgressView(value: Double(Int(signUpViewModal.value)), total: 100)
                     .frame(width: 200, height: 20)
                 Text("100%")
             }
+
         }
        
     }

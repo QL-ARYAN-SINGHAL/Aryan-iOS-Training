@@ -23,7 +23,7 @@ struct SignInFields: View {
             NavigationStack{
                 VStack {
                     
-                    AppTextField(textFieldPlaceholder: "Email", textFieldValue: $signUpValidation.email)
+                    AppTextField(textFieldPlaceholder: "User Name", textFieldValue: $signUpValidation.signUpEmail)
                         .onSubmit {
                             signUpValidation.progressValue()
                         }
@@ -34,12 +34,12 @@ struct SignInFields: View {
                             signUpValidation.progressValue()
                         }
                     
-                    AppTextField(textFieldPlaceholder: "LastName", textFieldValue: $signUpValidation.lastName)
+                    AppTextField(textFieldPlaceholder: "Last Name", textFieldValue: $signUpValidation.lastName)
                         .onSubmit {
                             signUpValidation.progressValue()
                         }
                     
-                    AppTextField(textFieldPlaceholder: "Password", textFieldValue: $signUpValidation.password)
+                    AppTextField(textFieldPlaceholder: "Password", textFieldValue: $signUpValidation.signUpPassword)
                         .onSubmit {
                             signUpValidation.progressValue()
                         }
@@ -47,20 +47,25 @@ struct SignInFields: View {
                     AppTextField(textFieldPlaceholder: "Confirm Password", textFieldValue: $signUpValidation.confirmPassword)
                         
                     
-                    AppTextField(textFieldPlaceholder: "Age", textFieldValue: $signUpValidation.age)
-                        .accentColor(.black)
+                    Text(signUpValidation.ageLabel)
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 50)
+
+
                        
                         
                     
                     Slider(value: $signUpValidation.ageValue, in: 12...70, step: 1)
-                        .padding(.horizontal,30)
+                        .padding(.horizontal, 30)
                         .accentColor(.red)
-                        .onChange(of: signUpValidation.ageValue) {
-                            signUpValidation.age = "Age : \(Int($0))"
+                        .onChange(of: signUpValidation.ageValue) { newValue in
+                            signUpValidation.age = Int(newValue)
                             signUpValidation.progressValue()
                         }
-                        .frame(width : UIScreen.main.bounds.width*0.6)
-                        .padding(.leading,-128)
+                        .frame(width: UIScreen.main.bounds.width * 0.6)
+                        .padding(.leading, -128)
+
                     
                     
                     VStack {

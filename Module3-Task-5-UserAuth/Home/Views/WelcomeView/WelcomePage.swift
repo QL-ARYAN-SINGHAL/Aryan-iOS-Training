@@ -42,10 +42,10 @@ struct WelcomePage: View {
                         NavigationLink(destination: SegmentedView()) {
                             Text("GET STARTED")
                                 .font(.custom("Poppins-Medium", size: 18))
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 48)
-                                .background(Color.black)
-                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity,alignment: .center)
+                                .frame(height: 68)
+                                .background(Color.white)
+                                .foregroundColor(.black)
                                 .cornerRadius(12)
                         }
                         .frame(width: 300)

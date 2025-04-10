@@ -12,97 +12,59 @@ struct ProfileFields: View {
     @State private var ageValue: Double = 12
     
     var body: some View {
-        VStack {
-            Text("Username")
-                .font(Font.custom("Popins-Medium", size: 16))
-                .padding(.leading , -152)
-            TextField("Username", text: $username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-              
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .cornerRadius(10)
-                .padding(.bottom, 15)
+        ScrollView{
+            VStack {
+                Text("User Name")
+                    .font(Font.custom("Popins-Medium", size: 16))
+                    .foregroundStyle(.blue)
+                    .padding(.leading , -152)
                 
-            Text("Firstname")
-                .font(Font.custom("Popins-Medium", size: 16))
-                .padding(.leading , -152)
-            TextField("Firstname", text: $firstName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .cornerRadius(10)
-                .padding(.bottom, 15)
-            
-            
-            Text("Lastname")
-                .font(Font.custom("Popins-Medium", size: 16))
-                .padding(.leading , -152)
-            TextField("Lastname", text: $lastName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .cornerRadius(10)
-                .padding(.bottom, 15)
-            
-            
-            Text("Password")
-                .font(Font.custom("Popins-Medium", size: 16))
-                .padding(.leading , -152)
-            TextField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .cornerRadius(10)
-                .padding(.bottom, 15)
-            
-           
-            
-            
-            Text("Age")
-                .font(Font.custom("Popins-Medium", size: 16))
-                .padding(.leading , -152)
-            TextField("Age", text: $age)
-                .disabled(true)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.gray)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .cornerRadius(10)
-                .padding(.bottom, 5)
-            
-          
-            Text("Gender")
-                .font(Font.custom("Popins-Medium", size: 16))
-                .padding(.leading , -152)
-            
-                .padding(.top , 10)
-            TextField("Gender", text: $gender)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundStyle(.black)
-                .background(Color.white)
-                .accentColor(.black)
-                .frame(width: 300, height: 35)
-                .border(.black)
-                .cornerRadius(10)
-                .padding(.bottom, 15)
-            
-           
+                ProfileTextField(profileTextFieldPlaceholder: "User Name", profiletextFieldValue: $username)
+                    
+                Text("First Name")
+                    .font(Font.custom("Popins-Medium", size: 16))
+                    .foregroundStyle(.blue)
+                    .padding(.leading , -152)
+                
+                ProfileTextField(profileTextFieldPlaceholder: "First Name", profiletextFieldValue: $firstName)
+                
+                
+                Text("Last Name")
+                    .font(Font.custom("Popins-Medium", size: 16))
+                    .foregroundStyle(.blue)
+                    .padding(.leading , -152)
+                
+                ProfileTextField(profileTextFieldPlaceholder: "Last Name", profiletextFieldValue: $lastName)
+                
+                
+                Text("Password")
+                    .font(Font.custom("Popins-Medium", size: 16))
+                    .foregroundStyle(.blue)
+                    .padding(.leading , -152)
+                ProfileTextField(profileTextFieldPlaceholder: "Password", profiletextFieldValue: $password)
+                
+               
+                
+                
+                Text("Age")
+                    .font(Font.custom("Popins-Medium", size: 16))
+                    .foregroundStyle(.blue)
+                    .padding(.leading , -152)
+                ProfileTextField(profileTextFieldPlaceholder: "Age", profiletextFieldValue: $age)
+                
+              
+                Text("Gender")
+                    .font(Font.custom("Popins-Medium", size: 16))
+                    .foregroundStyle(.blue)
+                    .padding(.leading , -152)
+                    .padding(.top , 10)
+                
+                ProfileTextField(profileTextFieldPlaceholder: "Gender", profiletextFieldValue: $gender)
+                
+               
+            }
         }
+       
         .frame(width: UIScreen.main.bounds.width*0.9 , height :UIScreen.main.bounds.height*0.6)
        
     }
